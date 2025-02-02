@@ -3,19 +3,13 @@ import pandas as pd
 import wave, struct
 import os 
 
+def download_data():
+    import kagglehub
 
-def create_dataset(filepath, filetype):
-    """
-    filepath -> insert link to the `data` directory
-    """
-    data = []
-    for root, dirs, files in os.walk(filepath):
-        for file in files:
-            if file.endswith(filetype):
-                data.append([os.path.join(root, file), root.split('/')[-1]])
-                print(f'Extracting {file} from {root.split("/")[-1]}')
-    df = pd.DataFrame(data, columns=['filename', 'label'])
-    return df
+    # Download latest version
+    path = kagglehub.dataset_download("andradaolteanu/gtzan-dataset-music-genre-classification")
+
+    print("Path to dataset files:", path)
 
 
 def extract_features(filename):
@@ -27,10 +21,3 @@ def extract_features(filename):
         data = struct.unpack("<h", wavedata)
         lr.append(int(data[0]))
     return lr
-
-
-if __name__ == '__main__':
-    filepath = '/Users/vuhoangthuyduong/Documents/music-genre-classification/data'
-    df = create_dataset(filepath, '.wav')
-    df['features'] = df['filename'].apply(extract_features)
-    df.to_csv('dataset.csv', index=False)

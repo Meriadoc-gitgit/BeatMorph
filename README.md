@@ -2,8 +2,8 @@
 
 ## Activate virtual environment
 ```bash
-conda create --name music-genre python=3.9
-conda activate music-genre
+conda create --name beatmorph python=3.9
+conda activate beatmorph
 ```
 ### Install all requirements
 ```bash
